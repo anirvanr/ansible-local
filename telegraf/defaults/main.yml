@@ -1,0 +1,72 @@
+telegraf_runas_user: vagrant
+telegraf_runas_group: vagrant
+
+telegraf_agent_version: 1.24.4
+telegraf_agent_version_patch: 1
+telegraf_agent_package: telegraf
+telegraf_agent_package_file_rpm: telegraf-{{ telegraf_agent_version }}-{{ telegraf_agent_version_patch }}.{{ ansible_architecture }}.rpm
+telegraf_agent_package_path: /tmp
+telegraf_agent_hostname: "{{ ansible_fqdn }}"
+
+telegraf_redhat_releasever: "$releasever"
+telegraf_yum_baseurl:
+  centos: "https://repos.influxdata.com/rhel/{{ telegraf_redhat_releasever }}/$basearch/stable"
+  default: "https://repos.influxdata.com/{{ ansible_distribution|lower }}/{{ telegraf_redhat_releasever }}/$basearch/stable"
+  redhat: "https://repos.influxdata.com/rhel/{{ telegraf_redhat_releasever }}/$basearch/stable"
+telegraf_yum_gpgkey: "https://repos.influxdata.com/influxdata-archive_compat.key"
+
+telegraf_agent_interval: 60
+telegraf_agent_debug: False
+telegraf_agent_round_interval: True
+telegraf_agent_flush_interval: 90
+telegraf_agent_flush_jitter: 10
+telegraf_agent_config_path: "/home/vagrant/{{ telegraf_agent_package }}"
+telegraf_agent_log_path: "/var/log/{{ telegraf_agent_package }}"
+telegraf_agent_collection_jitter: 0
+telegraf_agent_metric_batch_size: 1000
+telegraf_agent_metric_buffer_limit: 10000
+telegraf_agent_quiet: False
+telegraf_agent_logfile: "{{ telegraf_agent_log_path}}/telegraf.log"
+telegraf_agent_omit_hostname: False
+
+telegraf_global_tags: []
+
+telegraf_agent_output:
+  - type: influxdb
+    config:
+    - urls = ["http://localhost:8086"]
+    - database = "telegraf"
+    - username = "telegraf"
+    - password = "secret"
+    - retention_policy = ""
+    - write_consistency = "any"
+    - timeout = "5s"
+
+telegraf_plugins_default:
+  - plugin: cpu
+    config:
+      - percpu = true
+      - totalcpu = true
+      - collect_cpu_time = false
+      - report_active = false
+  - plugin: disk
+    config:
+      - ignore_fs = ["tmpfs", "devtmpfs", "devfs", "tracefs", "securityfs", "debugfs", "configfs"]
+  - plugin: io
+  - plugin: mem
+  - plugin: net
+  - plugin: system
+  - plugin: swap
+  - plugin: netstat
+  - plugin: processes
+  - plugin: kernel
+
+telegraf_plugins_extra:
+  apache:
+    config:
+      - urls = ["http://FQDN:PORT/server-status?auto"]
+  rabbitmq:
+    config:
+      - url = "http://localhost:8081"
+      - username = "USERNAME"
+      - password = "PASSWORD"

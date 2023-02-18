@@ -1,0 +1,8 @@
+---
+- name: "Restart Telegraf"
+  become: true
+  systemd:
+    daemon_reload: true
+    name: telegraf
+    state: restarted
+  ignore_errors: "{{ ansible_check_mode }}"
