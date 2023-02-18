@@ -1,1 +1,0 @@
-{"dependencies":[["dotenv-deployment",["~> 0.0.2"]],["dotenv",["~> 0.9"]],["vagrant-env",["= 0.0.3"]],["vagrant-hosts",["= 2.9.0"]],["vagrant-hostsupdater",["= 1.2.4"]],["net-ssh",[">= 2.6.5","< 7.0.0"]],["net-scp",[">= 1.1"]],["log4r",["~> 1.1"]],["vagrant-scp",["= 0.5.9"]]],"checksum":"76895a39e1fc47b008f1d1b5279762f8da8b22a38f76698d218e0b64d6c3cce3","vagrant_version":"2.3.0"}
