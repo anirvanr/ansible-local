@@ -1,5 +1,6 @@
 telegraf_runas_user: vagrant
 telegraf_runas_group: vagrant
+is_vagrant: true
 
 telegraf_agent_version: 1.24.4
 telegraf_agent_version_patch: 1
@@ -20,8 +21,8 @@ telegraf_agent_debug: False
 telegraf_agent_round_interval: True
 telegraf_agent_flush_interval: 90
 telegraf_agent_flush_jitter: 10
-telegraf_agent_config_path: "/home/vagrant/{{ telegraf_agent_package }}"
-telegraf_agent_log_path: "/var/log/{{ telegraf_agent_package }}"
+telegraf_agent_config_path: "/opt/SP/WEB_DATA/{{ telegraf_agent_package }}"
+telegraf_agent_log_path: "/var/SP/LOG_DATA/{{ telegraf_agent_package }}"
 telegraf_agent_collection_jitter: 0
 telegraf_agent_metric_batch_size: 1000
 telegraf_agent_metric_buffer_limit: 10000
@@ -62,9 +63,9 @@ telegraf_plugins_default:
   - plugin: kernel
 
 telegraf_plugins_extra:
-  apache:
+  nginx:
     config:
-      - urls = ["http://FQDN:PORT/server-status?auto"]
+      - urls = ["http://FQDN/nginx_status"]
   rabbitmq:
     config:
       - url = "http://localhost:8081"
